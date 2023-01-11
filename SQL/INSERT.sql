@@ -1,14 +1,14 @@
 USE DrivingSchool;
 
 INSERT INTO Student  VALUES 
-(1, 'John', 'Smith', '5551234567', 'john.smith@gmail.com'),
-(2, 'Jane', 'Doe', '5554567890', 'jane.doe@gmail.com'),
-(3, 'Robert', 'Johnson', '5557890123', 'robert.johnson@gmail.com');
+(1, 'asdfasdf', 'John', 'Smith', '5551234567', 'john.smith@gmail.com'),
+(2, 'asdfasdf', 'Jane', 'Doe', '5554567890', 'jane.doe@gmail.com'),
+(3, 'asdfasdf', 'Robert', 'Johnson', '5557890123', 'robert.johnson@gmail.com');
 
 INSERT INTO Instructors VALUES
-(1, 'Mike', 'Williams', '5551234567', 'mike.williams@gmail.com', '123 Main St'),
-(2, 'Sarah', 'Johnson', '5554567890', 'sarah.johnson@gmail.com', '456 Park Ave'),
-(3, 'Chris', 'Thompson', '5557890123', 'chris.thompson@gmail.com', '789 Maple St');
+(1, 'asdfasdf', 'Mike', 'Williams', '5551234567', 'mike.williams@gmail.com', '123 Main St'),
+(2, 'asdfasdf', 'Sarah', 'Johnson', '5554567890', 'sarah.johnson@gmail.com', '456 Park Ave'),
+(3, 'qwerqwer', 'Chris', 'Thompson', '5557890123', 'chris.thompson@gmail.com', '789 Maple St');
 
 INSERT INTO Vehicles VALUES
 (1, 'Honda', 'Civic', 2018),

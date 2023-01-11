@@ -1,7 +1,7 @@
 import mysql.connector
 
 database = mysql.connector.connect(
-    host="localhost", user="root", password="sneilium", database="Drivingschool"
+    host="localhost", user="root", password="root", database="Drivingschool"
 )
 curs = database.cursor(buffered=True)
 
@@ -29,6 +29,11 @@ def add_data(name, data):
 
 def get_data(name):
     curs.execute(f"SELECT * FROM {name}")
+    data = curs.fetchall()
+    return data
+
+def get_lesson_data(id):
+    curs.execute(f"SELECT Date, Time, Duration, First_Name as Instructor_Name, Brand as Vehicle_Name from Instructors NATURAL JOIN Lessons NATURAL JOIN Vehicles WHERE Student_ID = '{id}'")
     data = curs.fetchall()
     return data
 
@@ -66,3 +71,9 @@ def exec_sql(query):
     curs.execute(query)
     data = curs.fetchall()
     return data
+
+def create_user(query):
+    print(query)
+    curs.execute(query)
+    database.commit()
+   

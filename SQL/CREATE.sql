@@ -5,6 +5,7 @@ USE DrivingSchool;
 CREATE TABLE Student
 (
   Student_ID INT NOT NULL,
+  Student_Password VARCHAR(50) NOT NULL,
   First_Name VARCHAR(20) NOT NULL,
   Last_Name VARCHAR(20) NOT NULL,
   Phone VARCHAR(10) NOT NULL,
@@ -17,6 +18,7 @@ CREATE TABLE Student
 CREATE TABLE Instructors
 (
   Instructor_ID INT NOT NULL,
+  Instructor_Password VARCHAR(50) NOT NULL,
   First_Name VARCHAR(20) NOT NULL,
   Last_Name VARCHAR(20) NOT NULL,
   Phone VARCHAR(10) NOT NULL,
@@ -43,7 +45,7 @@ CREATE TABLE Lessons
   Instructor_ID INT NOT NULL,
   Vehicle_ID INT NOT NULL,
   Date DATE NOT NULL,
-  Time TIME NOT NULL,
+  Time VARCHAR(20) NOT NULL,
   Duration INT NOT NULL,
   PRIMARY KEY (Lesson_ID),
   FOREIGN KEY (Student_ID) REFERENCES Student(Student_ID) ON DELETE CASCADE,

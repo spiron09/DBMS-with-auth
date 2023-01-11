@@ -118,3 +118,15 @@ def insert():
 
         add_data(table, dictionary)
         st.success("Successfully Inserted the Data")
+
+
+def login_auth(email, password):
+    st_data = exec_sql("SELECT * FROM Student WHERE Email = '"+email+"'")
+    if len(st_data) == 1 and st_data[0][1] == password:
+        return True, 'student', st_data[0][0]
+    
+    in_data = exec_sql("SELECT * FROM Instructors WHERE Email = '"+email+"'")
+    if len(in_data) == 1 and in_data[0][1] == password:
+        return True, 'instructor'
+    
+    return False, ''
