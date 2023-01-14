@@ -127,6 +127,11 @@ def login_auth(email, password):
     
     in_data = exec_sql("SELECT * FROM Instructors WHERE Email = '"+email+"'")
     if len(in_data) == 1 and in_data[0][1] == password:
-        return True, 'instructor'
+        return True, 'instructor', in_data[0][0]
+    
+    ad_data = exec_sql("SELECT * FROM Admin WHERE Admin_mail = '"+email+"'")
+    print(ad_data)
+    if len(ad_data) == 1 and ad_data[0][2] == password:
+        return True, 'admin'
     
     return False, ''

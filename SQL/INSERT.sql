@@ -10,6 +10,9 @@ INSERT INTO Instructors VALUES
 (2, 'asdfasdf', 'Sarah', 'Johnson', '5554567890', 'sarah.johnson@gmail.com', '456 Park Ave'),
 (3, 'qwerqwer', 'Chris', 'Thompson', '5557890123', 'chris.thompson@gmail.com', '789 Maple St');
 
+INSERT INTO Admin VALUES
+(1,'admin@gmail.com', 'admin');
+
 INSERT INTO Vehicles VALUES
 (1, 'Honda', 'Civic', 2018),
 (2, 'Toyota', 'Corolla', 2016),

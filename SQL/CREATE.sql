@@ -29,6 +29,12 @@ CREATE TABLE Instructors
   UNIQUE (Email)
 );
 
+CREATE TABLE Admin (
+  Admin_ID INT NOT NULL,
+  Admin_mail VARCHAR(30) NOT NULL,
+  Admin_Password VARCHAR(50) NOT NULL,
+);
+
 CREATE TABLE Vehicles
 (
   Vehicle_ID INT NOT NULL,

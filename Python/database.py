@@ -32,8 +32,13 @@ def get_data(name):
     data = curs.fetchall()
     return data
 
-def get_lesson_data(id):
+def get_lesson_data_student(id):
     curs.execute(f"SELECT Date, Time, Duration, First_Name as Instructor_Name, Brand as Vehicle_Name from Instructors NATURAL JOIN Lessons NATURAL JOIN Vehicles WHERE Student_ID = '{id}'")
+    data = curs.fetchall()
+    return data
+
+def get_lesson_data_inst(id):
+    curs.execute(f"SELECT Date, Time, Duration, First_Name as Student_Name, Brand as Vehicle_Name from Student NATURAL JOIN Lessons NATURAL JOIN Vehicles WHERE Instructor_ID = '{id}'")
     data = curs.fetchall()
     return data
 
@@ -64,6 +69,7 @@ def update_data(name, inp_keyval, id_col_name, id_col_val):
 
     curs.execute(
         f"UPDATE {name} SET {col_val} WHERE {id_col_name}='{id_col_val}'")
+        #update Student set First_Name = 'Aman' where Student_ID = '1' 
     database.commit()
 
 
@@ -73,7 +79,7 @@ def exec_sql(query):
     return data
 
 def create_user(query):
-    print(query)
+    # print(query)
     curs.execute(query)
     database.commit()
    

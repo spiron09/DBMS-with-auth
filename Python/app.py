@@ -1,7 +1,7 @@
 import pandas as pd
 import streamlit as st
 from functions import insert, update, delete, read, login_auth
-from database import exec_sql, get_lesson_data, create_user
+from database import exec_sql, get_lesson_data_student, create_user, get_lesson_data_inst
 from sql import write_sql
 import mysql.connector
 # database = mysql.connector.connect(
@@ -10,12 +10,15 @@ import mysql.connector
 # curs = database.cursor(buffered=True)
 def logged_in_clicked(user_name, password):
     auth_res = login_auth(user_name, password)
-    st.session_state['userType'] = auth_res[1]
-    if st.session_state['userType'] == 'student':
-        st.session_state['studentID'] = auth_res[2]
-    
+    print(auth_res)
     if auth_res[0]:
+        st.session_state['userType'] = auth_res[1]
         st.session_state['loggedIn'] = True
+        if st.session_state['userType'] == 'student':
+            st.session_state['studentID'] = auth_res[2]
+        elif st.session_state['userType'] == 'instructor':
+            st.session_state['instructorID'] = auth_res[2]
+        
     else:
         st.session_state['loggedIn'] = False
         st.error("Invalid user name or password")
@@ -72,7 +75,7 @@ def student(student_page):
             m)
         with lesson_tab:
             cols = ["Date", "Time", "Duration", "Instructor_Name", "Vehicle_Name"]
-            df = pd.DataFrame(get_lesson_data(str(st.session_state['studentID'])), columns=cols)
+            df = pd.DataFrame(get_lesson_data_student(str(st.session_state['studentID'])), columns=cols)
             res = exec_sql("SELECT Date, Time, Duration, First_Name as Instructor_Name, Brand as Vehicle_Name from Instructors NATURAL JOIN Lessons NATURAL JOIN Vehicles WHERE Student_ID = '"+str(st.session_state['studentID'])+"'")
             # res = exec_sql("SELECT * from Instructors NATURAL JOIN Lessons NATURAL JOIN Vehicles WHERE Student_ID = '"+str(st.session_state['studentID'])+"'")
             # print(res)
@@ -88,11 +91,35 @@ def student(student_page):
             st.subheader("Book Lesson")
             date = st.date_input("Enter Date")
 
+def instructor(instrucutor_page):
+    with instrucutor_page:
+        m = ["My Schedule", "Book Lesson"]
+        my_schedule, book_lesson_tab = st.tabs(
+            m)
+        with my_schedule:
+            cols = ["Date", "Time", "Duration", "Student_Name", "Vehicle_Name"]
+            df = pd.DataFrame(get_lesson_data_inst(str(st.session_state['instructorID'])), columns=cols)
+            res = exec_sql("SELECT Date, Time, Duration, First_Name as Student_Name, Brand as Vehicle_Name from Student NATURAL JOIN Lessons NATURAL JOIN Vehicles WHERE Student_ID = '"+str(st.session_state['instructorID'])+"'")
+            # res = exec_sql("SELECT * from Instructors NATURAL JOIN Lessons NATURAL JOIN Vehicles WHERE Student_ID = '"+str(st.session_state['studentID'])+"'")
+            # print(res)
+            in_name = exec_sql("SELECT First_Name from Instructors WHERE Instructor_ID = '"+str(st.session_state['instructorID'])+"'")
+            # print(name)
+            st.subheader(in_name[0][0]+"'s" + " Schedule")
+            # st.success("Successfully executed the query!")
+            if res:
+                st.table(df)
+            else:
+                st.error("No lessons found")
+        with book_lesson_tab:
+            st.subheader("Book Lesson")
+            date = st.date_input("Enter Date")
 
-def instructor(instructor_page):
-    with instructor_page:
-        # in_name = exec_sql("SELECT First_Name from Instructors WHERE Instructor_ID = '"+str(st.session_state['Instructor_ID'])+"'")
-        st.subheader("Welcome Instructor!")
+
+
+def admin(admin_page):
+    with admin_page:
+        # in_name = exec_sql("SELECT First_Name from admins WHERE admin_ID = '"+str(st.session_state['admin_ID'])+"'")
+        st.subheader("Welcome admin!")
         menu = ["View Tables", "Insert Entry",
                 "Update Entry", "Delete Entry", "Custom SQL"]
 
@@ -130,6 +157,7 @@ def main():
     login_page = st.container()
     logout_page = st.container()
     student_page = st.container()
+    admin_page = st.container()
     instructor_page = st.container()
 
     with page:
@@ -142,7 +170,11 @@ def main():
             if st.session_state['loggedIn'] and st.session_state['userType'] == 'student':
                 logout(logout_page, login_page)
                 student(student_page)
+            elif st.session_state['loggedIn'] and st.session_state['userType'] == 'admin':
+                logout(logout_page, login_page)
+                admin(admin_page)
             elif st.session_state['loggedIn'] and st.session_state['userType'] == 'instructor':
+                
                 logout(logout_page, login_page)
                 instructor(instructor_page)
             else:
